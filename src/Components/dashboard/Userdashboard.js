@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 
 export class Userdashboard extends Component {
 	
-	constructor(props)
-
 	render() {
 		return (
 			<div>
-				
+				<h3>DashBoard</h3>
 			</div>
 		);
 	}

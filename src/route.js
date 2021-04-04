@@ -5,8 +5,13 @@ import Register from './Components/Register/Register.js';
 import Result from './Components/Result.js';
 import Homepage from './Components/Home/Homepage.js'
 import Userdashboard from './Components/dashboard/Userdashboard.js';
+import Admindashboard from './Components/admindashboard/Admindashboard.js';
 import Addproduct from './Components/dashboard/Addproduct.js';
 import AllBooks from './Components/ApiTest/AllBooks.js';
+import Productmanagement from './Components/admindashboard/Productmanagement.js';
+import UserManagement from './Components/admindashboard/UserManagement.js';
+import AdminManagement from './Components/admindashboard/AdminManagement.js';
+import OrderManagement from './Components/admindashboard/OrderManagement.js';
 
 export class Routes extends Component {
 	constructor(props){
@@ -52,6 +57,11 @@ export class Routes extends Component {
 						<Route exact path="/register" component={Register} />
 						<Route exact path="/" component={Homepage} />
 						<Route exact path="/login" component={Login} />
+						<Route exact path="/admindash" component={Admindashboard} />
+						<Route exact path="/products" component={Productmanagement} />
+						<Route exact path="/users" component={UserManagement} />
+						<Route exact path="/admins" component={AdminManagement} />
+						<Route exact path="/orders" component={OrderManagement} />
 					</Switch>
 	}
 				</Router>

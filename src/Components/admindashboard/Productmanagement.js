@@ -1,6 +1,37 @@
 import React, { Component } from 'react'
+import {getBooks } from '../../apiCall/BookAPI'
+import {approveBooks } from '../../apiCall/BookAPI'
+import { Button } from '@material-ui/core'
 
 export default class Productmanagement extends Component {
+
+  state={
+		books:[]
+	}
+
+    componentDidMount() {
+        this.getallBooks();
+    }
+
+    getallBooks=()=>{
+        let self=this;
+        getBooks().then(function(res){
+            self.setState({books:res.data})
+        }).catch((err)=>console.log(err));
+    }
+
+    approve=(id)=>{
+      approveBooks(id).then(function(res){
+        console.log(res.data)
+      }).catch((err)=>console.log(err));
+    }
+
+    // handleDelete=(id)=>{
+    //     deleteBook(id).then(function(res){
+    //       console.log(res)
+    //     }).catch((err)=>console.log(err));
+    // }
+
     render() {
         return (
             <div>
@@ -21,30 +52,14 @@ export default class Productmanagement extends Component {
 
                     <nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
     <div class="sidebar-inner px-4 pt-3">
-      <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
-        <div class="d-flex align-items-center">
-          <div class="user-avatar lg-avatar mr-4">
-            <img src="" class="card-img-top rounded-circle border-white" alt="Bonnie Green" />
-          </div>
-          <div class="d-block">
-            <h2 class="h6">Hi, Jane</h2>
-            <a href="../../pages/examples/sign-in.html" class="btn btn-secondary text-dark btn-xs"><span class="mr-2"><span class="fas fa-sign-out-alt"></span></span>Sign Out</a>
-          </div>
-        </div>
-        <div class="collapse-close d-md-none">
-            <a href="#sidebarMenu" class="fas fa-times" data-toggle="collapse"
-                data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true"
-                aria-label="Toggle navigation"></a>
-        </div>
-      </div>
       <ul class="nav flex-column">
-      <li class="nav-item  active ">
+      <li class="nav-item   ">
           <a onClick={()=>window.location.href='/admindash'} class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
             <span>Overview</span>
           </a>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item  active">
           <a onClick={()=>window.location.href='/products'} class="nav-link">
               <span class="sidebar-icon"><span class="fas fa-hand-holding-usd"></span></span>
               <span>Books </span>
@@ -97,24 +112,14 @@ export default class Productmanagement extends Component {
         </div>
 
         <ul class="navbar-nav align-items-center">
-
           <li class="nav-item dropdown">
             <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div class="media d-flex align-items-center">
-                <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder" src="" />
+            <div class="media d-flex align-items-center">
                 <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                  <span class="mb-0 font-small font-weight-bold">Bonnie Green</span>
+                <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
                 </div>
               </div>
             </a>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-right mt-2">
-              <a class="dropdown-item font-weight-bold" href="#"><span class="far fa-user-circle"></span>My Profile</a>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-cog"></span>Settings</a>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-envelope-open-text"></span>Messages</a>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-user-shield"></span>Support</a>
-              <div role="separator" class="dropdown-divider"></div>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-sign-out-alt text-danger"></span>Logout</a>
-            </div>
           </li>
         </ul>
       </div>
@@ -122,50 +127,36 @@ export default class Productmanagement extends Component {
 </nav>
 
 
-                        <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0">
+                        <div class="card card-body border-light shadow-sm">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Bill For</th>						
-                                        <th>Issue Date</th>
-                                        <th>Due Date</th>
-                                        <th>Total</th>
+                                        <th>Title</th>						
+                                        <th>Author</th>
+                                        <th>Price</th>
+                                        <th>Type</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                {this.state.books.map((item)=>
                                     <tr>
                                         <td>
-                                            <a href="../invoice.html" class="font-weight-bold">
-                                                456478
-                                            </a>
+                                            <span class="font-weight-normal">{item.title}</span>
                                         </td>
-                                        <td>
-                                            <span class="font-weight-normal">Platinum Subscription Plan</span>
-                                        </td>
-                                        <td><span class="font-weight-normal">1 May 2020</span></td>                        
-                                        <td><span class="font-weight-normal">1 Jun 2020</span></td>
-                                        <td><span class="font-weight-bold">$799,00</span></td>
-                                        <td><span class="font-weight-bold text-warning">Due</span></td>
+                                        <td><span class="font-weight-normal">{item.author}</span></td>                        
+                                        <td><span class="font-weight-normal">{item.price}</span></td>
+                                        <td><span class="font-weight-bold">{item.type}</span></td>
+                                        <td><span class="font-weight-bold">{item.status}</span></td>
                                         <td>
                                             <div class="btn-group">
-                                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="icon icon-sm">
-                                                        <span class="fas fa-ellipsis-h icon-dark"></span>
-                                                    </span>
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="../invoice.html"><span class="fas fa-eye mr-2"></span>View Details</a>
-                                                    <a class="dropdown-item" href="#"><span class="fas fa-edit mr-2"></span>Edit</a>
-                                                    <a class="dropdown-item text-danger" href="#"><span class="fas fa-trash-alt mr-2"></span>Remove</a>
-                                                </div>
+                                                <Button variant="contained" color="primary" onClick={this.approve(item.id)} type="submit" >&nbsp;Approve&nbsp;</Button>
+                                                 {/* <Button variant="contained" color="primary" onClick={this.handleDelete(item.id)}>Delete</Button> */}
                                             </div>
                                         </td>
                                     </tr>
+                                    )}
                            
                                                 
                                 </tbody>

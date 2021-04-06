@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
 import Login from './Components/Login/Login.js';
 import Register from './Components/Register/Register.js';
-import Result from './Components/Result.js';
 import Homepage from './Components/Home/Homepage.js'
 import Userdashboard from './Components/dashboard/Userdashboard.js';
 import Admindashboard from './Components/admindashboard/Admindashboard.js';
 import Addproduct from './Components/dashboard/Addproduct.js';
-import AllBooks from './Components/ApiTest/AllBooks.js';
 import Productmanagement from './Components/admindashboard/Productmanagement.js';
 import UserManagement from './Components/admindashboard/UserManagement.js';
 import AdminManagement from './Components/admindashboard/AdminManagement.js';
 import OrderManagement from './Components/admindashboard/OrderManagement.js';
+import Userorder from './Components/dashboard/Userorder.js';
+import Profile from './Components/dashboard/profile.js';
+import AllBooks from './Components/ApiTest/AllBooks.js';
+import EditProduct from './Components/dashboard/Editproduct.js';
 
 export class Routes extends Component {
 	constructor(props){
@@ -41,14 +43,13 @@ export class Routes extends Component {
 		return (
 			<div>
 				<Router>
-				{/* <Switch>
-						<Route exact path="/register" component={Register} />
-						<Route exact path="/add" component={Addproduct} />
-						<Route exact path="/allbooks" component={AllBooks} />
-					</Switch> */}
+				<Switch>
+			
+					</Switch>
 					{
 					this.state.isLogin?
 					<Switch>
+						<Route exact path="/test" component={AllBooks} />
 						<Route exact path="/login" component={Userdashboard}/>
 						<Route exact path="/" component={Homepage} />
 						
@@ -57,11 +58,19 @@ export class Routes extends Component {
 						<Route exact path="/register" component={Register} />
 						<Route exact path="/" component={Homepage} />
 						<Route exact path="/login" component={Login} />
+
 						<Route exact path="/admindash" component={Admindashboard} />
 						<Route exact path="/products" component={Productmanagement} />
 						<Route exact path="/users" component={UserManagement} />
 						<Route exact path="/admins" component={AdminManagement} />
 						<Route exact path="/orders" component={OrderManagement} />
+					
+						<Route exact path="/userdash" component={Userdashboard} />
+						<Route exact path="/addproducts" component={Addproduct} />
+						<Route exact path="/editproducts" component={EditProduct} />
+						<Route exact path="/userorders" component={Userorder} />
+						<Route exact path="/profile" component={Profile} />
+				
 					</Switch>
 	}
 				</Router>

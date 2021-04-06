@@ -1,21 +1,26 @@
 import React, { Component } from 'react'
-import { addBook } from '../../apiCall/BookAPI'
+import {getBookById } from '../../apiCall/BookAPI'
 import { Button } from '@material-ui/core'
 
-export default class Addproduct extends Component {
+export default class EditProduct extends Component {
 
-    constructor(props){
-		super(props);
-		this.state={
-				"title":'',
-                "author":'',
-                "category":'',
-                "price":'',
-                "type":'',
-                "description":'',
-                "addedBy":''
-		};
+  
+    state={
+		books:[]
 	}
+
+
+    componentDidMount() {
+        this.getBook();
+    }
+
+    getBook=()=>{
+        let self=this;
+        getBookById(28).then(function(res){
+            self.setState({books:res.data})
+            console.log(res.data)
+        }).catch((err)=>console.log(err));
+    }
 
     handleChange=(event)=>{
 		this.setState({[event.target.name]:event.target.value});
@@ -23,22 +28,22 @@ export default class Addproduct extends Component {
 
 	handleSubmit=(event)=>{
 		event.preventDefault();
-		var date=Date.now()
-		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,5,3).then((res)=>{
-			console.log(res);
-            window.location.href="/products"
-		}).catch((err)=>{
-			if(err.response.status===404){
-				this.setState({
-                title:'',
-                author:'',
-                price:'',
-                type:'',
-                description:'',
-                addedBy:''});
-			}
-		}
-		)
+		// var date=Date.now()
+		// addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,5,3).then((res)=>{
+		// 	console.log(res);
+        //     window.location.href="/products"
+		// }).catch((err)=>{
+		// 	if(err.response.status===404){
+		// 		this.setState({
+        //         title:'',
+        //         author:'',
+        //         price:'',
+        //         type:'',
+        //         description:'',
+        //         addedBy:''});
+		// 	}
+		// }
+		// )
 	}
 
     render() {
@@ -134,13 +139,14 @@ export default class Addproduct extends Component {
                                             <div class="col-12 d-flex align-items-center justify-content-center">
                                                 <div class="signin-inner  bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                                                     <div class="text-center text-md-center">
-                                                        <h1 class="h3">Add Book</h1>
+                                                        <h1 class="h3">Edit Book</h1>
                                                     </div>
+                                                    {/* {this.state.books.map((item)=> */}
                                                     <form  class="" onSubmit={(event)=>this.handleSubmit(event)}>
                                                         <div class="form-group ">
                                                             <label for="email">Book Title</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" placeholder="Book Title" name="title" autofocus required onChange={(e)=>this.handleChange(e)} />
+                                                                <input type="text" class="form-control"  name="title" autofocus required onChange={(e)=>this.handleChange(e)} />
                                                             </div>  
                                                         </div>
                                                         <div class="form-group">
@@ -171,20 +177,6 @@ export default class Addproduct extends Component {
                                                             </div>
                                                         </div>
 
-                                                            {/* <div class="form-group">
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Book Type</label>
-                                                                <div class="input-group">
-                                                                    <select class="form-select" aria-label="Default select example">
-                                                                        <option selected>Select Book Type</option>
-                                                                    <option value="Sell" name="type" onChange={(e)=>this.handleChange(e)}>Sell</option>
-                                                                    <option value="Borrow" name="type" onChange={(e)=>this.handleChange(e)}>Borrow</option>
-                                                                    </select>
-                                                                </div>  
-                                                            </div>
-                                                        </div> */}
-
-
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Book Type</label>
@@ -202,10 +194,11 @@ export default class Addproduct extends Component {
                                                                 </div>  
                                                             </div>
                                                         </div>
+                                                    
 
-
-                                                        <button type="submit" class="btn btn-block btn-primary">Add Book</button>
+                                                        <button type="submit" class="btn btn-block btn-primary">Edit Book</button>
                                                 </form>
+                                                // )}
                                             </div>
                                         </div>
                                     </div>

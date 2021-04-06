@@ -1,45 +1,17 @@
 import React, { Component } from 'react'
-import { addBook } from '../../apiCall/BookAPI'
-import { Button } from '@material-ui/core'
+import { getBooks } from '../../apiCall/BookAPI'
+import InputLabel from '@material-ui/core/InputLabel';
+import { Button, Container, FormLabel, Input, MenuItem, Select } from '@material-ui/core'
 
-export default class Addproduct extends Component {
+export default class Profile extends Component {
 
-    constructor(props){
-		super(props);
-		this.state={
-				"title":'',
-                "author":'',
-                "category":'',
-                "price":'',
-                "type":'',
-                "description":'',
-                "addedBy":''
-		};
+  state={
+		user:[]
 	}
 
-    handleChange=(event)=>{
-		this.setState({[event.target.name]:event.target.value});
-	}
-
-	handleSubmit=(event)=>{
-		event.preventDefault();
-		var date=Date.now()
-		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,5,3).then((res)=>{
-			console.log(res);
-            window.location.href="/products"
-		}).catch((err)=>{
-			if(err.response.status===404){
-				this.setState({
-                title:'',
-                author:'',
-                price:'',
-                type:'',
-                description:'',
-                addedBy:''});
-			}
-		}
-		)
-	}
+    componentDidMount() {
+        this.setState({user:localStorage.getItem('userinfo')})
+    }
 
     render() {
         return (
@@ -62,7 +34,7 @@ export default class Addproduct extends Component {
                     <nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
     <div class="sidebar-inner px-4 pt-3"> 
       <ul class="nav flex-column">
-      <li class="nav-item   ">
+      <li class="nav-item  active  ">
           <a onClick={()=>window.location.href='/profile'} class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
             <span>Your Profile</span>
@@ -74,7 +46,7 @@ export default class Addproduct extends Component {
             <span>Your Products</span>
           </a>
         </li>
-        <li class="nav-item active ">
+        <li class="nav-item  ">
           <a onClick={()=>window.location.href='/addproducts'} class="nav-link">
               <span class="sidebar-icon"><span class="fas fa-hand-holding-usd"></span></span>
               <span>Add Products</span>
@@ -134,77 +106,45 @@ export default class Addproduct extends Component {
                                             <div class="col-12 d-flex align-items-center justify-content-center">
                                                 <div class="signin-inner  bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                                                     <div class="text-center text-md-center">
-                                                        <h1 class="h3">Add Book</h1>
+                                                        <h1 class="h3">Profile</h1>
                                                     </div>
-                                                    <form  class="" onSubmit={(event)=>this.handleSubmit(event)}>
+                                                   
+                                                    <form action="#" class="">
+                                                    {this.state.user.map((item)=>
                                                         <div class="form-group ">
-                                                            <label for="email">Book Title</label>
+                                                            <label for="email">Username</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" placeholder="Book Title" name="title" autofocus required onChange={(e)=>this.handleChange(e)} />
+                                                                <input type="text" value={"item.username" } class="form-control"  autofocus required />
                                                             </div>  
                                                         </div>
+                                                    )}
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Author</label>
+                                                                <label for="password">Email</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" placeholder="Book Author" class="form-control" name="author" required  onChange={(e)=>this.handleChange(e)}/>
+                                                                    <input type="text"  class="form-control" />
                                                                 </div>  
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Category</label>
+                                                                <label for="password">Contact</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" placeholder="Book Price" class="form-control" name="category" required onChange={(e)=>this.handleChange(e)}/>
-                                                                </div>  
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="form-group">
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Book Price</label>
-                                                                <div class="input-group">
-                                                                    <input type="text" placeholder="Book Price" class="form-control" name="price" required onChange={(e)=>this.handleChange(e)}/>
-                                                                </div>  
-                                                            </div>
-                                                        </div>
-
-                                                            {/* <div class="form-group">
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Book Type</label>
-                                                                <div class="input-group">
-                                                                    <select class="form-select" aria-label="Default select example">
-                                                                        <option selected>Select Book Type</option>
-                                                                    <option value="Sell" name="type" onChange={(e)=>this.handleChange(e)}>Sell</option>
-                                                                    <option value="Borrow" name="type" onChange={(e)=>this.handleChange(e)}>Borrow</option>
-                                                                    </select>
-                                                                </div>  
-                                                            </div>
-                                                        </div> */}
-
-
-                                                        <div class="form-group">
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Book Type</label>
-                                                                <div class="input-group">
-                                                                    <input type="text" placeholder="Book Price" class="form-control" name="type" required onChange={(e)=>this.handleChange(e)}/>
+                                                                    <input type="text"  class="form-control"  />
                                                                 </div>  
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Description</label>
+                                                                <label for="password">Address</label>
                                                                 <div class="input-group">
-                                                                    <input onChange={(e)=>this.handleChange(e)} type="textarea" placeholder="Book Description" class="form-control"  name="description" required />
+                                                                    <input type="text"  class="form-control"  required />
                                                                 </div>  
                                                             </div>
                                                         </div>
-
-
-                                                        <button type="submit" class="btn btn-block btn-primary">Add Book</button>
+                                                        <button type="submit" class="btn btn-block btn-primary">Edit Profile</button>
                                                 </form>
                                             </div>
                                         </div>

@@ -198,7 +198,7 @@ export default class EditProduct extends Component {
 
                                                         <button type="submit" class="btn btn-block btn-primary">Edit Book</button>
                                                 </form>
-                                                // )}
+                                               
                                             </div>
                                         </div>
                                     </div>

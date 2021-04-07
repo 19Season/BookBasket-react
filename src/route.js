@@ -14,6 +14,7 @@ import Userorder from './Components/dashboard/Userorder.js';
 import Profile from './Components/dashboard/profile.js';
 import AllBooks from './Components/ApiTest/AllBooks.js';
 import EditProduct from './Components/dashboard/Editproduct.js';
+import { Product } from './Components/Home/Product.js';
 
 export class Routes extends Component {
 	constructor(props){
@@ -49,7 +50,7 @@ export class Routes extends Component {
 					{
 					this.state.isLogin?
 					<Switch>
-						<Route exact path="/test" component={AllBooks} />
+						
 						<Route exact path="/login" component={Userdashboard}/>
 						<Route exact path="/" component={Homepage} />
 						
@@ -70,6 +71,8 @@ export class Routes extends Component {
 						<Route exact path="/editproducts" component={EditProduct} />
 						<Route exact path="/userorders" component={Userorder} />
 						<Route exact path="/profile" component={Profile} />
+
+						<Route exact path="/pr" component={Product} />
 				
 					</Switch>
 	}

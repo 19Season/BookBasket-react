@@ -72,6 +72,9 @@ export default class AdminManagement extends Component {
               <span>Admin</span>
           </a>
         </li>
+         <li>
+         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+        </li>
         </ul>
     </div>
 </nav>

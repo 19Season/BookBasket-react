@@ -5,12 +5,16 @@ import { Button, Container, FormLabel, Input, MenuItem, Select } from '@material
 
 export default class Profile extends Component {
 
-  state={
-		user:[]
-	}
+    constructor(props){
+        super(props)
+        this.state={
+            user:localStorage.getItem('userinfo') || null
+            }
+    }
+  
 
     componentDidMount() {
-        this.setState({user:localStorage.getItem('userinfo')})
+
     }
 
     render() {
@@ -114,7 +118,7 @@ export default class Profile extends Component {
                                                         <div class="form-group ">
                                                             <label for="email">Username</label>
                                                             <div class="input-group">
-                                                                <input type="text" value={"item.username" } class="form-control"  autofocus required />
+                                                                <input type="text" value={item.username} class="form-control" readOnly />
                                                             </div>  
                                                         </div>
                                                     )}
@@ -122,7 +126,7 @@ export default class Profile extends Component {
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Email</label>
                                                                 <div class="input-group">
-                                                                    <input type="text"  class="form-control" />
+                                                                    <input type="text"   class="form-control" readOnly />
                                                                 </div>  
                                                             </div>
                                                         </div>
@@ -131,7 +135,7 @@ export default class Profile extends Component {
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Contact</label>
                                                                 <div class="input-group">
-                                                                    <input type="text"  class="form-control"  />
+                                                                    <input type="text"   class="form-control" readOnly />
                                                                 </div>  
                                                             </div>
                                                         </div>
@@ -140,7 +144,7 @@ export default class Profile extends Component {
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Address</label>
                                                                 <div class="input-group">
-                                                                    <input type="text"  class="form-control"  required />
+                                                                    <input type="text"  class="form-control"   readOnly />
                                                                 </div>  
                                                             </div>
                                                         </div>

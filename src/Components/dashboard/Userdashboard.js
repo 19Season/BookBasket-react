@@ -1,36 +1,50 @@
 import React, { Component } from 'react'
 import { getUserBook } from '../../apiCall/BookAPI'
+import {deleteBook } from '../../apiCall/BookAPI'
 import { Button } from '@material-ui/core'
 
 export default class Userorder extends Component {
 
-  state={
-		books:[]
-	}
+  constructor(props){
+        super(props)
+        this.state={
+            user:localStorage.getItem('userinfo') || null,
+            userId:this.props.match.params.userId,
+            books:[]
+            }
+    }
 
     componentDidMount() {
+      console.log(this.props.match.params.userId)
        this.getAllUserBook();
     }
 
-    getAllUserBook=()=>{
-      let self=this;
-      getUserBook(5).then(function(res){
-            self.setState({books:res.data})
+    handleDelete=(e,id)=>{
+        deleteBook(id).then(function(res){
+          console.log(res)
+          window.location.reload()
         }).catch((err)=>console.log(err));
     }
 
-   
 
+    getAllUserBook=()=>{
+      let self=this;
+      getUserBook(this.state.userId).then(function(res){
+            self.setState({books:res.data})
+        }).catch((err)=>console.log(err));
+    }
     handleLogout=(event)=>{
         event.preventDefault();
-        localStorage.setItem('userinfo','');
-        window.location.href='/login'
+        localStorage.clear()
+        window.location.href='/'
     }
 
     render() {
+      const {userId}=this.state;
         return (
             <div>
                 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
+      }
     <a class="navbar-brand mr-lg-5" href="../../index.html">
         <img class="navbar-brand-dark" src="../../assets/img/brand/light.svg" alt="Volt logo" /> <img class="navbar-brand-light" src="../../assets/img/brand/dark.svg" alt="Volt logo" />
     </a>
@@ -56,7 +70,7 @@ export default class Userorder extends Component {
           </a>
         </li>
       <li class="nav-item  active ">
-          <a onClick={()=>window.location.href='/userdash'} class="nav-link">
+          <a onClick={()=>window.location.href=`/userdash/${userId}`} class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
             <span>Your Products</span>
           </a>
@@ -73,6 +87,9 @@ export default class Userorder extends Component {
               <span>Your Orders</span>
           </a>
         </li>
+        <li>
+         <Button  variant="contained" color="secondary" onClick={(e)=>this.handleLogout(e)}>Logout</Button>
+        </li>
         </ul>
     </div>
 </nav>
@@ -88,30 +105,11 @@ export default class Userorder extends Component {
                 
                     <main class="content">
 
-                        <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
-    <div class="container-fluid px-0">
-      <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-        <div class="d-flex">
-        </div>
-
-        <ul class="navbar-nav align-items-center">
-
-          <li class="nav-item dropdown">
-            <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div class="media d-flex align-items-center">
-                <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                <Button variant="contained" color="secondary" onClick={(event)=>this.handleLogout(event)}>Logout</Button>
-                </div>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav>
+          
 
 
-                        <div class="card card-body border-light shadow-sm">
+                        <div class= " mt-5">
+
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -141,8 +139,8 @@ export default class Userorder extends Component {
                                         <td><span class="font-weight-bold text-warning">{item.description}</span></td>
                                         <td>
                                             <div class="btn-group">
-                                                <Button variant="contained" color="primary" onCLick={window.location.href='/editproducts'}>Edit</Button>&nbsp;
-                                                 <Button variant="contained" color="primary">Delete</Button>
+                                                <Button variant="contained" color="primary" onCLick={(e)=>window.location.href='/editproducts'}>Edit</Button>&nbsp;
+                                                 <Button variant="contained" color="primary" onClick={(e)=>this.handleDelete(e,item.id)}>Delete</Button> 
                                             </div>
                                         </td>
                                     </tr>

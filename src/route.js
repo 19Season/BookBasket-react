@@ -15,26 +15,27 @@ import Profile from './Components/dashboard/profile.js';
 import AllBooks from './Components/ApiTest/AllBooks.js';
 import EditProduct from './Components/dashboard/Editproduct.js';
 import { Product } from './Components/Home/Product.js';
+import Sell  from './Components/Home/Sell.js';
+import Borrow  from './Components/Home/Borrow.js';
 
 export class Routes extends Component {
 	constructor(props){
 		super(props);
 		this.state={
-			expired:localStorage.getItem('expiry_time'),
-			isLogin:!!JSON.parse(localStorage.getItem('userinfo')),
-			userinfo:JSON.parse(localStorage.getItem('userinfo')),
+			expired:localStorage.getItem('expiry_time')||null,
+			isLogin:localStorage.getItem('userinfo')?!!JSON.parse(localStorage.getItem('userinfo')):false,
+			userinfo:localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')):[],
 		}
 	}
 	componentDidMount(){
-		console.log(this.state.isLogin);
-		console.log(this.state.userinfo);
-		console.log(this.state.expired);
 		this.checkIfExpired()
 	}
 	checkIfExpired=()=>
 	{
-		if(this.state.userinfo && this.state.expired<=Date.now())
+		if(this.state.userinfo.length && this.state.expired<=Date.now())
 		{	
+			console.log(this.state.userinfo)
+			console.log(this.state.expired)
 			localStorage.clear()
 			window.location.reload();
 		}	
@@ -48,12 +49,14 @@ export class Routes extends Component {
 			
 					</Switch>
 					{
-					this.state.isLogin?
+					!this.state.isLogin?
 					<Switch>
 						
-						<Route exact path="/login" component={Userdashboard}/>
+						<Route exact path="/login" component={Login}/>
 						<Route exact path="/" component={Homepage} />
-						
+						<Route exact path="/pr/:id" component={Product} />
+						<Route exact path="/sell" component={Sell} />
+
 					</Switch>:
 					<Switch>
 						<Route exact path="/register" component={Register} />
@@ -66,14 +69,15 @@ export class Routes extends Component {
 						<Route exact path="/admins" component={AdminManagement} />
 						<Route exact path="/orders" component={OrderManagement} />
 					
-						<Route exact path="/userdash" component={Userdashboard} />
+						<Route exact path="/userdash/:userId" component={Userdashboard} />
 						<Route exact path="/addproducts" component={Addproduct} />
 						<Route exact path="/editproducts" component={EditProduct} />
 						<Route exact path="/userorders" component={Userorder} />
 						<Route exact path="/profile" component={Profile} />
 
-						<Route exact path="/pr" component={Product} />
-				
+						<Route exact path="/pr/:id" component={Product} />
+						<Route exact path="/sell" component={Sell} />
+						<Route exact path="/borrow" component={Borrow} />
 					</Switch>
 	}
 				</Router>

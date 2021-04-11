@@ -6,6 +6,58 @@
 	color: white;
 	padding: 5px;
 }
+.header2{
+	background-color: #74A5C6;
+	padding-top: 2px;
+	display: flex;
+ 	margin: auto;
+ }
+
+.buttons{
+	margin: auto !important;
+	display: flex;
+}
+
+.buttons p{
+text-align: center;
+align-content: center;
+align-items: center;
+color: #fff;
+}
+
+.buttons button{
+	border:none;
+	margin-left: 5px !important;
+	border-radius: 10px !important;
+	padding: 2px;
+	width: 76px;
+	height: 30px;
+}
+.btn-login{
+	background: #1F60F0; 
+	color: #eee;
+}
+.btn-register{
+	background-color: #45BD18;
+	color: #eee;
+}
+
+.buttons button:hover{
+	background: #111; 
+	color: #fff;
+}
+
+.book-data .view{
+width: 100px;
+border:none;
+background-color:#74A5C6;
+color: #fff;
+}
+.book-data .view:hover{
+	background-color:#3A6B8D;
+}
+
+
 .header1 h1{
 	color: white;
 	padding: 2px;
@@ -21,30 +73,32 @@
 	margin-right: 50px;
 }
 
-.content{
+.ccontent{
 	display: grid;
-	grid-template-columns: 1fr 10fr;
+	margin: 0;
+	grid-template-columns: 1fr 5fr;
 }
-.content .list{
+
+@media (min-width: 768px)
+.content {
+    margin-left: 0px;
+}
+.ccontent ul li{
 	list-style-type: none;
-	margin-left: -500px;
 }
-.content .list ul{
-	text-align:center;
-}
-.content .list ul li{
-	list-style: none;
-}
+
+
+
+
 .book-content{
 	margin: 5px;
-	margin-left:-120px;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 }
 
 .product-content{
 	margin-top: 50px;
-	margin-left:-120px;
+	
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 }
@@ -96,4 +150,22 @@
 .footer .quick-links ul li{
 	display: block;
 	list-style-type: none;
+}
+.list ul li{
+	cursor:pointer;
+	text-align: center;
+}
+.list ul li:hover{
+	font-size: 1.1rem;
+}
+
+.list ul .cat{
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.sell-content{
+	margin: 5px;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
 }

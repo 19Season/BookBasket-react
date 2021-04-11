@@ -19,9 +19,10 @@ export class Login extends Component {
 		event.preventDefault();
 		var date=Date.now()
 		addData(this.state.username,this.state.password,3).then((res)=>{
+			console.log(res)
 			localStorage.setItem("expiry_time",JSON.stringify(date+8640000));
 			localStorage.setItem("userinfo",JSON.stringify(res));
-			window.location.href='/userdash';
+			window.location.href=`/userdash/${res.id}`;
 			console.log(res);
 			console.log(localStorage.getItem('userInfo'));	
 		}).catch((err)=>{
@@ -54,7 +55,7 @@ export class Login extends Component {
 			<p class="forgot" align="right"><a href="#">Forgot Password?</a></p>
 			<p>
 				<span class="pheader"> Doesnot have an account? <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/register'} >Sign Up </a>here</span>
-				<button class="login-btn" type="submit"  onClick={()=>window.location.href='/userdash'}>Login</button>
+				<button class="login-btn" type="submit"  >Login</button>
 			</p>
 			</form>
 		</div>

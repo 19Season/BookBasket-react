@@ -20,18 +20,14 @@ export default class Productmanagement extends Component {
         }).catch((err)=>console.log(err));
     }
 
-    approve=(id)=>{
+    approve=(e,id)=>{
       approveBooks(id).then(function(res){
         console.log(res.data)
+        window.location.href='/admindash'
       }).catch((err)=>console.log(err));
     }
 
-    // handleDelete=(id)=>{
-    //     deleteBook(id).then(function(res){
-    //       console.log(res)
-    //     }).catch((err)=>console.log(err));
-    // }
-
+    
     render() {
         return (
             <div>
@@ -83,6 +79,9 @@ export default class Productmanagement extends Component {
               <span>Admin</span>
           </a>
         </li>
+         <li>
+         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+        </li>
         </ul>
     </div>
 </nav>
@@ -98,37 +97,10 @@ export default class Productmanagement extends Component {
                 
                     <main class="content">
 
-                        <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
-    <div class="container-fluid px-0">
-      <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-        <div class="d-flex">
+                       
 
-          <form class="navbar-search form-inline" id="navbar-search-main">
-            <div class="input-group input-group-merge search-bar">
-                <span class="input-group-text" id="topbar-addon"><span class="fas fa-search"></span></span>
-                <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search" aria-label="Search" aria-describedby="topbar-addon" />
-            </div>
-          </form>
-        </div>
-
-        <ul class="navbar-nav align-items-center">
-          <li class="nav-item dropdown">
-            <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="media d-flex align-items-center">
-                <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
-                </div>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav>
-
-
-                        <div class="card card-body border-light shadow-sm">
-                            <table class="table table-hover">
+                        <div class="mt-5 px-10">
+                            <table class="table table-hover md-12">
                                 <thead>
                                     <tr>
                                         <th>Title</th>						
@@ -151,7 +123,7 @@ export default class Productmanagement extends Component {
                                         <td><span class="font-weight-bold">{item.status}</span></td>
                                         <td>
                                             <div class="btn-group">
-                                                <Button variant="contained" color="primary" onClick={this.approve(item.id)} type="submit" >&nbsp;Approve&nbsp;</Button>
+                                                <Button variant="contained" color="primary" onClick={(e)=>this.approve(e,item.id)} type="submit" >&nbsp;Approve&nbsp;</Button>
                                                  {/* <Button variant="contained" color="primary" onClick={this.handleDelete(item.id)}>Delete</Button> */}
                                             </div>
                                         </td>

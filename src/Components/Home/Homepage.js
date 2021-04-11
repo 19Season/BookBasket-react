@@ -1,34 +1,46 @@
 import React, { Component } from "react";
 import "./header.css";
+import {Header2} from "./Header2.js";
 import BannerImage from "./banner.jpg";
 import BookImage from "./book-img.jpg";
-import { getBooks } from "../../apiCall/BookAPI";
+import { availableBooks} from "../../apiCall/BookAPI";
 import { Button } from '@material-ui/core'
 
 export class Homepage extends Component {
-  state = {
+ 
+  constructor(props){
+  super(props)
+  this.state = {
     books: [],
-  };
-
+    user:localStorage.getItem('userinfo') || null,
+  }
+  }
   componentDidMount() {
     this.getallBooks();
   }
 
   getallBooks = () => {
     let self = this;
-    getBooks()
+    availableBooks()
       .then(function (res) {
         self.setState({ books: res.data });
       })
       .catch((err) => console.log(err));
   };
 
+  login=()=>{
+    if (this.state.user==null||this.state.user==''||this.state.user==[]) {
+      return <Header2 />
+    }
+  }
+
   render() {
     return (
       <div>
         <div className="header">
+            <Header2 />
           <div className="header1">
-            <h1>book Basket</h1>
+            <h1> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
             <div className="social">
               <p>
                 <span>Facebook</span> <span>Instagram</span>
@@ -37,6 +49,8 @@ export class Homepage extends Component {
               <p>info@bookbasket.com</p>
             </div>
           </div>
+
+         
         </div>
 		{/* END */}
     
@@ -47,23 +61,24 @@ export class Homepage extends Component {
          {/* END */}
 
 		{/* Content */}
-		<div className="content">
+		<div className="ccontent">
 			<div className="list">
 				<ul>
-					<li>Top Books</li>
-					<li>Categories</li>
-					<ul>
+					<li class="cat">Top Books</li>
+					<li class="cat">Categories</li>
+					<ul class="category">
 						<li>Comedy</li>
 						<li>Sci-Fi</li>
 						<li>Programming</li>
 						<li>Novels</li>
-						<li>Used Books</li>
+            <li>Education</li>
 					</ul>
-					<li>Buy Books</li>
-					<li>Borrow Books</li>
+					<li class="cat" onClick={()=>window.location.href='/sell'}>Buy Books</li>
+					<li class="cat" onClick={()=>window.location.href='/borrow'}>Borrow Books</li>
 				</ul>
 			</div>
 			<div className="book-content">
+      
 			{this.state.books.map((item)=>
 				<div className="book-card">
 					<div className="book-img">
@@ -72,7 +87,7 @@ export class Homepage extends Component {
 					<div className="book-data">
 						<p>{item.title}</p>
 						<p>{item.price}</p>
-						<Button variant="outlined" onClick={window.location.href='/pr'} >View More</Button>
+						<button class="view"><a style={{ cursor:"pointer" }} onClick={(e)=>window.location.href=`/pr/${item.id}`}>View More</a></button>
 					</div>
 				</div>
 			)}

@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import "./header.css";
 import BookImage from "./book-img.jpg";
-import { getBookById } from "../../apiCall/BookAPI";
+import { getBooksByType } from "../../apiCall/BookAPI";
 import { orderBook } from "../../apiCall/OrderAPI";
 import { Button, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 
-//const theTheme = createMuiTheme({ palette: { primary: grey } })
-
-export class Product extends Component {
+export class Borrow extends Component {
   
 constructor(props){
   super(props)
@@ -18,29 +16,19 @@ constructor(props){
   }
   }
   
-
   componentDidMount() {
-    this.getBook(this.state.id);
+    this.getBook();
+    console.log(this.state.book);
   }
 
   getBook = () => {
     let self=this;
-    getBookById(self.state.id).then(function (res) {
+    getBooksByType("Borrow").then(function (res) {
         self.setState({ book: res.data });
+        console.log(res.data)
       })
       .catch((err) => console.log(err));
   };
-
-  orderBooks=(event)=>{
-    let id=this.state.user['6'];
-    console.log(this.state.book.id)
-    console.log(this.state.user['6'])
-    orderBook(this.state.book.id,this.state.user['6'],3)
-    .then(function (res) {
-        window.location.href=`/userdash/${id}`
-      })
-      .catch((err) => console.log(err));
-  }
 
   render() {
     return (
@@ -60,50 +48,26 @@ constructor(props){
         {/* END */}
 
         {/* Content */}
-        <div className="ccontent">
-         <div className="list">
-        <ul>
-          <li class="cat">Top Books</li>
-          <li class="cat">Categories</li>
-          <ul class="category">
-            <li>Comedy</li>
-            <li>Sci-Fi</li>
-            <li>Programming</li>
-            <li>Novels</li>
-            <li>Education</li>
-          </ul>
-          <li class="cat" onClick={()=>window.location.href='/sell'}>Buy Books</li>
-          <li class="cat" onClick={()=>window.location.href='/borrow'}>Borrow Books</li>
-        </ul>
-      </div>
-          
-        
-          <div className="product-content">
-
-            <div className="book-img">
-              <img src={BookImage} />
-            </div>
-           
-            <div className="book-details">
-              <h3>{this.state.book.title}</h3>
-              <h5><small>by </small>{this.state.book.author}</h5>
-              <p>
-               {this.state.book.description}
-              </p>
-            </div>
-         
-            <div className="order">
-              <p><small>Type: </small><b>{this.state.book.type}</b></p>
-              <i>{this.state.book.price}</i>
-              <br />
-             
-              <Button variant="outlined" color="primary" className="orderButton" onClick={(event)=>this.orderBooks(event)}>Order Now</Button>
-              
-            </div>
-          </div>
-         
-        </div>
-
+       
+          <h2 align="left">Books Available for Borrow:</h2>
+          <hr />
+          <div className="sell-content">
+      	
+			{this.state.book.map((item)=>
+				<div className="book-card">
+					<div className="book-img">
+							<img src={BookImage} />
+					</div>
+					<div className="book-data">
+						<p>{item.title}</p>
+						<p>{item.price}</p>
+						<button class="view"><a style={{ cursor:"pointer" }} onClick={(e)=>window.location.href=`/pr/${item.id}`}>View More</a></button>
+					</div>
+				</div>
+				)}
+			</div>
+			
+		
         {/* Footer */}
         <div class="footer">
           <div class="about-us">
@@ -145,3 +109,4 @@ constructor(props){
     );
   }
 }
+export default Borrow;

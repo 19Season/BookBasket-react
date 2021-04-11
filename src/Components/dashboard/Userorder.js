@@ -1,28 +1,54 @@
 import React, { Component } from 'react'
 import { Button } from '@material-ui/core'
 import { getParticularUserOrder } from '../../apiCall/OrderAPI';
+import { cancelOrder } from '../../apiCall/OrderAPI';
 
 export default class Userorder extends Component {
 
   state={
-		order:[]
+		order:[],
+        user:JSON.parse(localStorage.getItem('userinfo')),
+        id:'',
 	}
 
     componentDidMount() {
+        this.state.id=this.state.user.id;
         this.getallOrder();
+      
+        console.log(this.state.id)
     }
 
     getallOrder=()=>{
         let self=this;
-        getParticularUserOrder(5).then(function(res){
+        getParticularUserOrder(this.state.id).then(function(res){
           console.log(res)
             self.setState({order:res.data})
         }).catch((err)=>console.log(err));
     }
 
+    handleLogout=(event)=>{
+        event.preventDefault();
+        localStorage.clear()
+        window.location.href='/'
+    }
+
+    cancelOrders=(e,id)=>{
+         cancelOrder(id).then(function(res){
+          window.location.reload()
+        }).catch((err)=>console.log(err));
+    }
+
+
     render() {
+         const {id}=this.state;
         return (
             <div>
+
+
+            <div className="header1">
+            <h1 style={{ margin:"auto" }}> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
+            </div>
+
                 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
     <a class="navbar-brand mr-lg-5" href="../../index.html">
         <img class="navbar-brand-dark" src="../../assets/img/brand/light.svg" alt="Volt logo" /> <img class="navbar-brand-light" src="../../assets/img/brand/dark.svg" alt="Volt logo" />
@@ -49,7 +75,7 @@ export default class Userorder extends Component {
           </a>
         </li>
         <li class="nav-item">
-          <a onClick={()=>window.location.href='/userdash'} class="nav-link">
+          <a onClick={()=>window.location.href=`/userdash/${id}`} class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
             <span>Your Products</span>
           </a>
@@ -66,6 +92,9 @@ export default class Userorder extends Component {
               <span>Your Orders</span>
           </a>
         </li>
+         <li>
+         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+        </li>
         </ul>
     </div>
 </nav>
@@ -81,35 +110,7 @@ export default class Userorder extends Component {
                 
                     <main class="content">
 
-                        <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
-    <div class="container-fluid px-0">
-      <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-        <div class="d-flex">
-        </div>
-
-        <ul class="navbar-nav align-items-center">
-
-          <li class="nav-item dropdown">
-            <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div class="media d-flex align-items-center">
-                <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
-                </div>
-              </div>
-            </a>
-            <div class="dropdown-menu dashboard-dropdown dropdown-menu-right mt-2">
-              <a class="dropdown-item font-weight-bold" href="#"><span class="far fa-user-circle"></span>My Profile</a>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-cog"></span>Settings</a>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-envelope-open-text"></span>Messages</a>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-user-shield"></span>Support</a>
-              <div role="separator" class="dropdown-divider"></div>
-              <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-sign-out-alt text-danger"></span>Logout</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav>
+                       
 
 
                         <div class="card card-body border-light shadow-sm">
@@ -129,16 +130,15 @@ export default class Userorder extends Component {
                                     <tr>
                                        
                                         <td>
-                                            <span class="font-weight-normal">{item.bookId.title}</span>
+                                            <span class="font-weight-normal">{item.book.title}</span>
                                         </td>
-                                        <td><span class="font-weight-normal">{item.bookId.author}</span></td>                        
-                                        <td><span class="font-weight-normal">{item.bookId.price}0</span></td>
-                                        <td><span class="font-weight-bold">{item.bookId.type}</span></td>
-                                        <td><span class="font-weight-bold text-warning">{item.bookId.addedBy.username}</span></td>
+                                        <td><span class="font-weight-normal">{item.book.author}</span></td>                        
+                                        <td><span class="font-weight-normal">{item.book.price}0</span></td>
+                                        <td><span class="font-weight-bold">{item.book.type}</span></td>
+                                        <td><span class="font-weight-bold text-warning">{item.book.addedBy.username}</span></td>
                                         <td>
                                             <div class="btn-group">
-                                                <Button variant="contained" color="primary">Edit</Button>&nbsp;
-                                                 <Button variant="contained" color="primary">Delete</Button>
+                                                <Button variant="contained" color="primary" onClick={(e)=>this.cancelOrders(e,item.id)}>Cancel</Button>
                                             </div>
                                         </td>
                                     </tr>

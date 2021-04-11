@@ -104,6 +104,9 @@ export default class OrderManagement extends Component {
               <span>Admin</span>
           </a>
         </li>
+         <li>
+         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+        </li>
         </ul>
     </div>
 </nav>
@@ -119,38 +122,10 @@ export default class OrderManagement extends Component {
                 
                     <main class="content">
 
-                        <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
-    <div class="container-fluid px-0">
-      <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-        <div class="d-flex">
-
-          <form class="navbar-search form-inline" id="navbar-search-main">
-            <div class="input-group input-group-merge search-bar">
-                <span class="input-group-text" id="topbar-addon"><span class="fas fa-search"></span></span>
-                <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search" aria-label="Search" aria-describedby="topbar-addon" />
-            </div>
-          </form>
-        </div>
-
-        <ul class="navbar-nav align-items-center">
-
-        <li class="nav-item dropdown">
-            <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="media d-flex align-items-center">
-                <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
-                </div>
-              </div>
-            </a>
-          </li>
-            
-        </ul>
-      </div>
-    </div>
-</nav>
+                       
 
 
-                        <div class="card card-body border-light shadow-sm">
+                        <div class="mt-5 px-4">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -171,10 +146,10 @@ export default class OrderManagement extends Component {
                                             </a>
                                         </td>
                                         <td>
-                                            <span class="font-weight-normal">{item.bookId.title}</span>
+                                            <span class="font-weight-normal">{item.book.title}</span>
                                         </td>
-                                        <td><span class="font-weight-normal">{}</span></td> 
-                                        <td><span class="font-weight-normal">{item.userId.username}</span></td>                        
+                                        <td><span class="font-weight-normal">{item.book.addedBy.username}</span></td> 
+                                        <td><span class="font-weight-normal">{item.user.username}</span></td>                        
                                        
                                         <td><span class="font-weight-bold text-warning">{item.status}</span></td>
                                         <td>

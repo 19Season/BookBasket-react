@@ -3,8 +3,57 @@ import ".././css/volt.css";
 import ".././vendor/notyf/notyf.min.css";
 import ".././vendor/@fortawesome/fontawesome-free/css/all.min.css";
 import { Button } from '@material-ui/core'
+import { countBooks } from "../../apiCall/BookAPI";
+import { countUsers } from "../../apiCall/UserAPI";
+import { countOrders } from "../../apiCall/OrderAPI";
 
 export default class Admindashboard extends Component {
+
+  constructor(props){
+  super(props)
+  this.state = {
+    allbook:0,
+    allusers:0,
+    allorder:0,
+    user:localStorage.getItem('userinfo') || null,
+  }
+  }
+  componentDidMount() {
+    this.getallBooks();
+    this.getallUsers();
+    this.getallOrders();
+  }
+
+  getallBooks = () => {
+    let self = this;
+   countBooks()
+      .then(function (res) {
+        self.setState({ allbook: res.data });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  getallUsers = () => {
+    let self = this;
+   countUsers()
+      .then(function (res) {
+        self.setState({ allusers: res.data });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  getallOrders = () => {
+    let self = this;
+   countOrders()
+      .then(function (res) {
+        self.setState({ allorder: res.data });
+      })
+      .catch((err) => console.log(err));
+  };
+
+
+
+
     render() {
         return (
             <div>
@@ -73,6 +122,9 @@ export default class Admindashboard extends Component {
               <span>Admin</span>
           </a>
         </li>
+         <li>
+         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -88,81 +140,15 @@ export default class Admindashboard extends Component {
 
                 
                     <main class="content">
-
-                        <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
-    <div class="container-fluid px-0">
-      <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-        <div class="d-flex">
-         
-          <form class="navbar-search form-inline" id="navbar-search-main">
-            <div class="input-group input-group-merge search-bar">
-                <span class="input-group-text" id="topbar-addon"><span class="fas fa-search"></span></span>
-                <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search" aria-label="Search" aria-describedby="topbar-addon" />
-            </div>
-          </form>
-        </div>
-
-        <ul class="navbar-nav align-items-center">
-         
-        <li class="nav-item dropdown">
-            <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="media d-flex align-items-center">
-                <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
-                </div>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-                       
-                        
-                            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                                <div class="card border-light shadow-sm">
-                                    <div class="card-body">
-                                        <div class="row d-block d-xl-flex align-items-center">
-                                           
-                                            <div class="col-12 col-xl-7 px-xl-0">
-                                                <div class="d-none d-sm-block">
-                                                    <h2 class="h5">Users</h2>
-                                                    <h3 class="mb-1">345k</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                                <div class="card border-light shadow-sm">
-                                    <div class="card-body">
-                                        <div class="row d-block d-xl-flex align-items-center">
-                                            <div class="col-12 col-xl-7 px-xl-0">
-                                                <div class="d-none d-sm-block">
-                                                    <h2 class="h5">Books</h2>
-                                                    <h3 class="mb-1">$43,594</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                                <div class="card border-light shadow-sm">
-                                    <div class="card-body">
-                                        <div class="row d-block d-xl-flex align-items-center">
-                                        <div class="col-12 col-xl-7 px-xl-0">
-                                                <div class="d-none d-sm-block">
-                                                    <h2 class="h5">Orders</h2>
-                                                    <h3 class="mb-1">$43,594</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                          <p>{this.state.allbook}</p>
+                        </div>
+                        <div>
+                          <p>{this.state.allorder}</p>
+                        </div>
+                        <div>
+                          <p>{this.state.allusers}</p>
+                        </div>
                       </main>  
                 </div>
             </div>

@@ -7,6 +7,23 @@ export function getBooks(){
 	})
 }
 
+export function availableBooks(){
+	return new Promise(function (resolve,reject) {
+		axios.get('http://localhost:8085/available').then((res)=>
+			resolve(res)).catch((err)=>reject(err))
+	})
+}
+
+export function countBooks(){
+	return new Promise(function (resolve,reject) {
+		axios.get('http://localhost:8085/count').then((res)=>
+			resolve(res)).catch((err)=>reject(err))
+	})
+}
+
+
+
+
 export function getBookById(id){
 	return new Promise(function (resolve,reject) {
 		axios.get(`http://localhost:8085/api/book/${id}`).then((res)=>
@@ -44,9 +61,9 @@ export function getBooksByCategory(category){
 	})
 }
 
-export function getBooksByAuthor(author){
+export function getBooksByType(type){
 	return new Promise(function (resolve,reject) {
-		axios.get(`http://localhost:8085/api/book/author/${author}`).then((res)=>
+		axios.get(`http://localhost:8085/api/book/type/${type}`).then((res)=>
 			resolve(res)).catch((err)=>reject(err))
 	})
 }

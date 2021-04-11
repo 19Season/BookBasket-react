@@ -6,17 +6,22 @@ export default class Addproduct extends Component {
 
     constructor(props){
 		super(props);
-		this.state={
-				"title":'',
-                "author":'',
-                "category":'',
-                "price":'',
-                "type":'',
-                "description":'',
-                "addedBy":''
-		};
-	}
+        this.state={
+            user:JSON.parse(localStorage.getItem('userinfo')) || null,
+            userId:'',
+            "title":'',
+            "author":'',
+            "category":'',
+            "price":'',
+            "type":'',
+            "description":'',
+            "addedBy":''
+        };
+         }
 
+         componentDidMount() {
+            this.userId=this.state.user.id
+         }
     handleChange=(event)=>{
 		this.setState({[event.target.name]:event.target.value});
 	}
@@ -24,9 +29,9 @@ export default class Addproduct extends Component {
 	handleSubmit=(event)=>{
 		event.preventDefault();
 		var date=Date.now()
-		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,5,3).then((res)=>{
+		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,this.state.userId,3).then((res)=>{
 			console.log(res);
-            window.location.href="/products"
+            window.location.href=`/userdash/${this.state.user['6']}`
 		}).catch((err)=>{
 			if(err.response.status===404){
 				this.setState({
@@ -69,7 +74,7 @@ export default class Addproduct extends Component {
           </a>
         </li>
         <li class="nav-item   ">
-          <a onClick={()=>window.location.href='/userdash'} class="nav-link">
+          <a onClick={()=>window.location.href=`/userdash/${this.state.userId}`} class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
             <span>Your Products</span>
           </a>
@@ -85,6 +90,9 @@ export default class Addproduct extends Component {
               <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
               <span>Your Orders</span>
           </a>
+        </li>
+         <li>
+         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
         </li>
         </ul>
     </div>
@@ -113,7 +121,7 @@ export default class Addproduct extends Component {
             <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media d-flex align-items-center">
                 <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                  <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+
                 </div>
               </div>
             </a>

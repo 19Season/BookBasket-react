@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from '@material-ui/core'
 import { getParticularUserOrder } from '../../apiCall/OrderAPI';
 import { cancelOrder } from '../../apiCall/OrderAPI';
+import './dash.css';
 
 export default class Userorder extends Component {
 
@@ -44,22 +45,6 @@ export default class Userorder extends Component {
         return (
             <div>
 
-
-            <div className="header1">
-            <h1 style={{ margin:"auto" }}> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
-            </div>
-
-                <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
-    <a class="navbar-brand mr-lg-5" href="../../index.html">
-        <img class="navbar-brand-dark" src="../../assets/img/brand/light.svg" alt="Volt logo" /> <img class="navbar-brand-light" src="../../assets/img/brand/dark.svg" alt="Volt logo" />
-    </a>
-    <div class="d-flex align-items-center">
-        <button class="navbar-toggler d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
-
         <div class="container-fluid bg-soft">
             <div class="row">
                 <div class="col-12">
@@ -68,33 +53,37 @@ export default class Userorder extends Component {
     <div class="sidebar-inner px-4 pt-3">
      
       <ul class="nav flex-column">
-      <li class="nav-item ">
+      <li>
+        <Button className="dash"  variant="contained" color="primary" onClick={()=>window.location.href='/'}> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;Return to Home</Button>
+        </li>
+      <li class="nav-item  active  ">
           <a onClick={()=>window.location.href='/profile'} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
-            <span>Your Profile</span>
+            <span class="sidebar-icon"><span class="fa fa-user-circle"></span></span>
+            <span>{this.state.user.username}</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a onClick={()=>window.location.href=`/userdash/${id}`} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
+        <li class="nav-item   ">
+          <a onClick={()=>window.location.href=`/userdash/${this.state.user.id}` } class="nav-link">
+            <span class="sidebar-icon"><span  class="fa fa-book"></span></span>
             <span>Your Products</span>
           </a>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item  ">
           <a onClick={()=>window.location.href='/addproducts'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-hand-holding-usd"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-plus"></span></span>
               <span>Add Products</span>
           </a>
         </li>
-        <li class="nav-item  active  ">
+        <li class="nav-item ">
           <a onClick={()=>window.location.href='/userorders'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-cart-plus"></span></span>
               <span>Your Orders</span>
           </a>
         </li>
          <li>
-         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+           <Button  variant="contained" color="secondary" onClick={(event)=>this.handleLogout(event)}>Logout</Button>
         </li>
+        
         </ul>
     </div>
 </nav>

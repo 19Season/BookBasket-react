@@ -14,6 +14,13 @@ export function availableBooks(){
 	})
 }
 
+export function searchBooks(keyword){
+	return new Promise(function (resolve,reject) {
+		axios.get(`http://localhost:8085/api/book/search/${keyword}`).then((res)=>
+			resolve(res)).catch((err)=>reject(err))
+	})
+}
+
 export function countBooks(){
 	return new Promise(function (resolve,reject) {
 		axios.get('http://localhost:8085/count').then((res)=>

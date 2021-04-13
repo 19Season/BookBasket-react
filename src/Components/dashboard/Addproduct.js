@@ -20,10 +20,16 @@ export default class Addproduct extends Component {
          }
 
          componentDidMount() {
-            this.userId=this.state.user.id
+            this.state.userId=this.state.user.id
          }
+         handleLogout=(event)=>{
+        event.preventDefault();
+        localStorage.clear()
+        window.location.href='/'
+    }
     handleChange=(event)=>{
 		this.setState({[event.target.name]:event.target.value});
+        console.log(this.state.category)
 	}
 
 	handleSubmit=(event)=>{
@@ -31,7 +37,7 @@ export default class Addproduct extends Component {
 		var date=Date.now()
 		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,this.state.userId,3).then((res)=>{
 			console.log(res);
-            window.location.href=`/userdash/${this.state.user['6']}`
+            window.location.href=`/userdash/${this.state.userId}`
 		}).catch((err)=>{
 			if(err.response.status===404){
 				this.setState({
@@ -67,32 +73,35 @@ export default class Addproduct extends Component {
                     <nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
     <div class="sidebar-inner px-4 pt-3"> 
       <ul class="nav flex-column">
-      <li class="nav-item   ">
+       <li>
+        <Button className="dash"  variant="contained" color="primary" onClick={()=>window.location.href='/'}> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;Return to Home</Button>
+        </li>
+     <li class="nav-item  active  ">
           <a onClick={()=>window.location.href='/profile'} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
-            <span>Your Profile</span>
+            <span class="sidebar-icon"><span class="fa fa-user-circle"></span></span>
+            <span>{this.state.user.username}</span>
           </a>
         </li>
         <li class="nav-item   ">
-          <a onClick={()=>window.location.href=`/userdash/${this.state.userId}`} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
+          <a onClick={()=>window.location.href=`/userdash/${this.state.user.id}` } class="nav-link">
+            <span class="sidebar-icon"><span  class="fa fa-book"></span></span>
             <span>Your Products</span>
           </a>
         </li>
-        <li class="nav-item active ">
+        <li class="nav-item  ">
           <a onClick={()=>window.location.href='/addproducts'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-hand-holding-usd"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-plus"></span></span>
               <span>Add Products</span>
           </a>
         </li>
         <li class="nav-item ">
           <a onClick={()=>window.location.href='/userorders'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-cart-plus"></span></span>
               <span>Your Orders</span>
           </a>
         </li>
          <li>
-         <Button  variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
+         <Button  variant="contained" color="secondary" onClick={(event)=>this.handleLogout(event)}>Logout</Button>
         </li>
         </ul>
     </div>
@@ -160,11 +169,23 @@ export default class Addproduct extends Component {
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        {/*<div class="form-group">
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Book Category</label>
                                                                 <div class="input-group">
                                                                     <input type="text" placeholder="Book Price" class="form-control" name="category" required onChange={(e)=>this.handleChange(e)}/>
+                                                                </div>  
+                                                            </div>
+                                                        </div>
+*/}
+                                                        <div class="form-group">
+                                                            <div class="form-group mb-4">
+                                                                <label for="password">Book Category</label>
+                                                                <div class="input-group">
+                                                                <select onChange={(e)=>this.handleChange(e)} name="category">
+                                                                   <option  value="Borrow" >Borrow </option>
+                                                                   <option  value="Sell"  >Sell </option>
+                                                                </select>
                                                                 </div>  
                                                             </div>
                                                         </div>

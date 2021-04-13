@@ -8,8 +8,13 @@ export default class Profile extends Component {
     constructor(props){
         super(props)
         this.state={
-            user:localStorage.getItem('userinfo') || null
+            user:JSON.parse(localStorage.getItem('userinfo')) || null
             }
+    }
+    handleLogout=(event)=>{
+        event.preventDefault();
+        localStorage.clear()
+        window.location.href='/'
     }
   
 
@@ -38,29 +43,35 @@ export default class Profile extends Component {
                     <nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
     <div class="sidebar-inner px-4 pt-3"> 
       <ul class="nav flex-column">
+       <li>
+        <Button className="dash"  variant="contained" color="primary" onClick={()=>window.location.href='/'}> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;Return to Home</Button>
+        </li>
       <li class="nav-item  active  ">
           <a onClick={()=>window.location.href='/profile'} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
-            <span>Your Profile</span>
+            <span class="sidebar-icon"><span class="fa fa-user-circle"></span></span>
+            <span>{this.state.user.username}</span>
           </a>
         </li>
         <li class="nav-item   ">
-          <a onClick={()=>window.location.href='/userdash'} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
+          <a onClick={()=>window.location.href=`/userdash/${this.state.user.id}` } class="nav-link">
+            <span class="sidebar-icon"><span  class="fa fa-book"></span></span>
             <span>Your Products</span>
           </a>
         </li>
         <li class="nav-item  ">
           <a onClick={()=>window.location.href='/addproducts'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-hand-holding-usd"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-plus"></span></span>
               <span>Add Products</span>
           </a>
         </li>
         <li class="nav-item ">
           <a onClick={()=>window.location.href='/userorders'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-cart-plus"></span></span>
               <span>Your Orders</span>
           </a>
+        </li>
+         <li>
+            <Button  variant="contained" color="secondary" onClick={(event)=>this.handleLogout(event)}>Logout</Button>
         </li>
         </ul>
     </div>
@@ -77,28 +88,7 @@ export default class Profile extends Component {
                 
                     <main class="content">
 
-                        <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark pl-0 pr-2 pb-0">
-    <div class="container-fluid px-0">
-      <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
-        <div class="d-flex">
-        </div>
-
-        <ul class="navbar-nav align-items-center">
-
-          <li class="nav-item dropdown">
-            <a class="nav-link pt-1 px-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div class="media d-flex align-items-center">
-                <div class="media-body ml-2 text-dark align-items-center d-none d-lg-block">
-                  <Button variant="contained" color="secondary" onClick={()=>window.location.href='/'}>Logout</Button>
-                </div>
-              </div>
-            </a>
-           
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav>
+                       
 
 
                         <div class=""> 
@@ -114,19 +104,19 @@ export default class Profile extends Component {
                                                     </div>
                                                    
                                                     <form action="#" class="">
-                                                    {this.state.user.map((item)=>
+                                                   
                                                         <div class="form-group ">
                                                             <label for="email">Username</label>
                                                             <div class="input-group">
-                                                                <input type="text" value={item.username} class="form-control" readOnly />
+                                                                <input type="text" value={this.state.user.username} class="form-control" readOnly />
                                                             </div>  
                                                         </div>
-                                                    )}
+                                                    
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Email</label>
                                                                 <div class="input-group">
-                                                                    <input type="text"   class="form-control" readOnly />
+                                                                    <input type="text" value={this.state.user.email}   class="form-control" readOnly />
                                                                 </div>  
                                                             </div>
                                                         </div>
@@ -135,7 +125,7 @@ export default class Profile extends Component {
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Contact</label>
                                                                 <div class="input-group">
-                                                                    <input type="text"   class="form-control" readOnly />
+                                                                    <input type="text"  value={this.state.user.contact}  class="form-control" readOnly />
                                                                 </div>  
                                                             </div>
                                                         </div>
@@ -144,7 +134,7 @@ export default class Profile extends Component {
                                                             <div class="form-group mb-4">
                                                                 <label for="password">Address</label>
                                                                 <div class="input-group">
-                                                                    <input type="text"  class="form-control"   readOnly />
+                                                                    <input type="text"  class="form-control" value={this.state.user.address}   readOnly />
                                                                 </div>  
                                                             </div>
                                                         </div>

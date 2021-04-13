@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./header.css";
 import {Header2} from "./Header2.js";
+import LoggedHeader from "./LoggedHeader.js";
 import BannerImage from "./banner.jpg";
 import BookImage from "./book-img.jpg";
 import { availableBooks} from "../../apiCall/BookAPI";
@@ -11,12 +12,24 @@ export class Homepage extends Component {
   constructor(props){
   super(props)
   this.state = {
+    search:'',
     books: [],
+    isLogin:!!localStorage.getItem('userinfo') || false,
     user:localStorage.getItem('userinfo') || null,
   }
   }
   componentDidMount() {
     this.getallBooks();
+    this.login()
+    console.log(this.state.isLogin)
+  }
+
+  handleChange=(event)=>{
+    this.setState({[event.target.name]:event.target.value});
+  }
+
+  handleSearch=(event)=>{
+    window.location.href=`/srch/${this.state.search}`
   }
 
   getallBooks = () => {
@@ -29,8 +42,10 @@ export class Homepage extends Component {
   };
 
   login=()=>{
-    if (this.state.user==null||this.state.user==''||this.state.user==[]) {
+    if (this.state.isLogin) {
       return <Header2 />
+    }else{
+      return <LoggedHeader />
     }
   }
 
@@ -38,15 +53,14 @@ export class Homepage extends Component {
     return (
       <div>
         <div className="header">
-            <Header2 />
+          <Header2 />
+
           <div className="header1">
             <h1> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
-            <div className="social">
-              <p>
-                <span>Facebook</span> <span>Instagram</span>
-              </p>
-              <p>+977-987654321</p>
-              <p>info@bookbasket.com</p>
+            <div></div>
+            <div className="search">
+              <input type="text" onChange={(event)=>this.handleChange(event)} name="search" className="keyword" placeholder="Search book by title, author, keyword" /> 
+              <input type="submit" onClick={(event)=>this.handleSearch(event)}  value="Search" className="src-btn" />
             </div>
           </div>
 
@@ -58,11 +72,36 @@ export class Homepage extends Component {
           <div className="image">
             <img src={BannerImage} />
           </div>
-         {/* END */}
+    {/* END */}
+
+    <div class="dropdown">
+    <button class="dropbtn">Dropdown 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <ul class="grid-container">
+                  <li class="grid-item">College Books</li>
+                  <li class="grid-item">School Books</li>
+                  <li class="grid-item">Action and Adventure</li>
+                  <li class="grid-item">Classics</li>
+                  <li class="grid-item">Comic</li>
+                  <li class="grid-item">Fantasy</li>
+                  <li class="grid-item">Historical Fiction</li>
+                  <li class="grid-item">Horror</li>
+                  <li class="grid-item">Romance</li>
+                  <li class="grid-item">Science Fiction (Sci-Fi)</li>
+                  <li class="grid-item">Short Stories</li>
+                  <li class="grid-item">Biographies and Autobiographies</li>
+                  <li class="grid-item">Poetry</li>
+          </ul>
+  </div>
+  <button class="dropbtn">Old Boooks</button>
+  <button class="dropbtn">New Books</button>
+  </div> 
 
 		{/* Content */}
 		<div className="ccontent">
-			<div className="list">
+			{/*<div className="list">
 				<ul>
 					<li class="cat">Top Books</li>
 					<li class="cat">Categories</li>
@@ -76,7 +115,7 @@ export class Homepage extends Component {
 					<li class="cat" onClick={()=>window.location.href='/sell'}>Buy Books</li>
 					<li class="cat" onClick={()=>window.location.href='/borrow'}>Borrow Books</li>
 				</ul>
-			</div>
+			</div>*/}
 			<div className="book-content">
       
 			{this.state.books.map((item)=>
@@ -85,8 +124,9 @@ export class Homepage extends Component {
 							<img src={BookImage} />
 					</div>
 					<div className="book-data">
-						<p>{item.title}</p>
-						<p>{item.price}</p>
+						<p><b>{item.title}</b></p>
+						<p>by :{item.author}</p>
+            <p><i>NPR.{item.price}</i></p>
 						<button class="view"><a style={{ cursor:"pointer" }} onClick={(e)=>window.location.href=`/pr/${item.id}`}>View More</a></button>
 					</div>
 				</div>

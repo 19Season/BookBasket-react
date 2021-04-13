@@ -21,6 +21,11 @@ export default class EditProduct extends Component {
             console.log(res.data)
         }).catch((err)=>console.log(err));
     }
+    handleLogout=(event)=>{
+        event.preventDefault();
+        localStorage.clear()
+        window.location.href='/'
+    }
 
     handleChange=(event)=>{
 		this.setState({[event.target.name]:event.target.value});
@@ -67,6 +72,9 @@ export default class EditProduct extends Component {
                     <nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
     <div class="sidebar-inner px-4 pt-3"> 
       <ul class="nav flex-column">
+       <li>
+        <Button className="dash"  variant="contained" color="primary" onClick={()=>window.location.href='/'}> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;Return to Home</Button>
+        </li>
       <li class="nav-item   ">
           <a onClick={()=>window.location.href='/profile'} class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>

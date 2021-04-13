@@ -8,7 +8,7 @@ export default class Userorder extends Component {
   constructor(props){
         super(props)
         this.state={
-            user:localStorage.getItem('userinfo') || null,
+            user:JSON.parse(localStorage.getItem('userinfo')) || null,
             userId:this.props.match.params.userId,
             books:[]
             }
@@ -63,32 +63,35 @@ export default class Userorder extends Component {
     <div class="sidebar-inner px-4 pt-3">
      
       <ul class="nav flex-column">
-      <li class="nav-item   ">
+       <li>
+        <Button className="dash"  variant="contained" color="primary" onClick={()=>window.location.href='/'}> <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;Return to Home</Button>
+        </li>
+     <li class="nav-item  active  ">
           <a onClick={()=>window.location.href='/profile'} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
-            <span>Your Profile</span>
+            <span class="sidebar-icon"><span class="fa fa-user-circle"></span></span>
+            <span>{this.state.user.username}</span>
           </a>
         </li>
-      <li class="nav-item  active ">
-          <a onClick={()=>window.location.href=`/userdash/${userId}`} class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
+        <li class="nav-item   ">
+          <a onClick={()=>window.location.href=`/userdash/${this.state.user.id}` } class="nav-link">
+            <span class="sidebar-icon"><span  class="fa fa-book"></span></span>
             <span>Your Products</span>
           </a>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item  ">
           <a onClick={()=>window.location.href='/addproducts'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-hand-holding-usd"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-plus"></span></span>
               <span>Add Products</span>
           </a>
         </li>
         <li class="nav-item ">
           <a onClick={()=>window.location.href='/userorders'} class="nav-link">
-              <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
+              <span class="sidebar-icon"><span class="fa fa-cart-plus"></span></span>
               <span>Your Orders</span>
           </a>
         </li>
-        <li>
-         <Button  variant="contained" color="secondary" onClick={(e)=>this.handleLogout(e)}>Logout</Button>
+         <li>
+           <Button  variant="contained" color="secondary" onClick={(event)=>this.handleLogout(event)}>Logout</Button>
         </li>
         </ul>
     </div>

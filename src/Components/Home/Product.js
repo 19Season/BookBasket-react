@@ -47,13 +47,11 @@ constructor(props){
       <div>
         <div className="header">
           <div className="header1">
-          <h1> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
-            <div className="social">
-              <p>
-                <span>Facebook</span> <span>Instagram</span>
-              </p>
-              <p>+977-987654321</p>
-              <p>info@bookbasket.com</p>
+            <h1> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
+            <div></div>
+            <div className="search">
+              <input type="text" name="search" className="keyword" placeholder="Search book by title, author, keyword" /> 
+              <input type="submit" value="Search" className="src-btn" />
             </div>
           </div>
         </div>

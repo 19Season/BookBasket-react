@@ -1,31 +1,30 @@
 import React, { Component } from "react";
 import "./header.css";
 import BookImage from "./book-img.jpg";
-import { getBooksByType } from "../../apiCall/BookAPI";
+import { searchBooks } from "../../apiCall/BookAPI";
 import { orderBook } from "../../apiCall/OrderAPI";
 import { Button, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 
-export class Borrow extends Component {
+export class Search extends Component {
   
 constructor(props){
   super(props)
   this.state = {
-    book: [],
-    id:this.props.match.params.id,
+    books: [],
+    key:this.props.match.params.key,
     user:localStorage.getItem('userinfo') || null,
   }
   }
   
   componentDidMount() {
-    this.getBook();
-    console.log(this.state.book);
+    this.getSearch();
   }
 
-  getBook = () => {
+  getSearch = () => {
     let self=this;
-    getBooksByType("Borrow").then(function (res) {
-        self.setState({ book: res.data });
-        console.log(res.data)
+    searchBooks(this.state.key).then(function (res) {
+        self.setState({ books: res.data });
+        console.log(self.state.books)
       })
       .catch((err) => console.log(err));
   };
@@ -38,7 +37,7 @@ constructor(props){
             <h1> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
             <div></div>
             <div className="search">
-              <input type="text" name="search" className="keyword" placeholder="Search book by title, author, keyword" /> 
+              <input type="text" onChange={(e)=>this.handleChange(e)} name="search" className="keyword" placeholder="Search book by title, author, keyword" /> 
               <input type="submit" value="Search" className="src-btn" />
             </div>
           </div>
@@ -47,11 +46,11 @@ constructor(props){
 
         {/* Content */}
        
-          <h2 align="left">Books Available for Borrow:</h2>
+          <h2 align="left">Result</h2>
           <hr />
           <div className="sell-content">
       	
-			{this.state.book.map((item)=>
+		{/*{this.state.books.map((item)=>
 				<div className="book-card">
 					<div className="book-img">
 							<img src={BookImage} />
@@ -62,7 +61,17 @@ constructor(props){
 						<button class="view"><a style={{ cursor:"pointer" }} onClick={(e)=>window.location.href=`/pr/${item.id}`}>View More</a></button>
 					</div>
 				</div>
-				)}
+				)}*/}
+
+    <div className="book-card">
+          <div className="book-img">
+              <img src={BookImage} />
+          </div>
+          <div className="book-data">
+            <p>{this.state.books.title}</p>
+            <p>{this.state.books.price}</p>
+          </div>
+        </div>
 			</div>
 			
 		
@@ -107,4 +116,4 @@ constructor(props){
     );
   }
 }
-export default Borrow;
+export default Search;

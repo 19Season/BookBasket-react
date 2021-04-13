@@ -17,9 +17,11 @@ import EditProduct from './Components/dashboard/Editproduct.js';
 import { Product } from './Components/Home/Product.js';
 import Sell  from './Components/Home/Sell.js';
 import Borrow  from './Components/Home/Borrow.js';
+import Search  from './Components/Home/Search.js';
+import ImageUpload  from './Components/Home/ImageUpload.js';
 
 export class Routes extends Component {
-	constructor(props){
+	constructor(props){ 
 		super(props);
 		this.state={
 			expired:localStorage.getItem('expiry_time')||null,
@@ -56,12 +58,15 @@ export class Routes extends Component {
 						<Route exact path="/" component={Homepage} />
 						<Route exact path="/pr/:id" component={Product} />
 						<Route exact path="/sell" component={Sell} />
+						<Route exact path="/register" component={Register} />
+						<Route exact path="/srch/:key" component={Search} />
+						<Route exact path="/img" component={ImageUpload} />
 
 					</Switch>:
 					<Switch>
-						<Route exact path="/register" component={Register} />
+						<Route exact path="/srch" component={Search} />
 						<Route exact path="/" component={Homepage} />
-						<Route exact path="/login" component={Login} />
+						<Route exact path="/login" component={Homepage} />
 
 						<Route exact path="/admindash" component={Admindashboard} />
 						<Route exact path="/products" component={Productmanagement} />
@@ -76,8 +81,9 @@ export class Routes extends Component {
 						<Route exact path="/profile" component={Profile} />
 
 						<Route exact path="/pr/:id" component={Product} />
-						<Route exact path="/sell" component={Sell} />
+						<Route exact path="/srch/:key" component={Search} />
 						<Route exact path="/borrow" component={Borrow} />
+						
 					</Switch>
 	}
 				</Router>

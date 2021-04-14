@@ -18,6 +18,8 @@ import { Product } from './Components/Home/Product.js';
 import Sell  from './Components/Home/Sell.js';
 import Borrow  from './Components/Home/Borrow.js';
 import Search  from './Components/Home/Search.js';
+import Category  from './Components/Home/Category.js';
+import EmptyBooks  from './Components/Home/EmptyBooks.js';
 import ImageUpload  from './Components/Home/ImageUpload.js';
 
 export class Routes extends Component {
@@ -55,18 +57,36 @@ export class Routes extends Component {
 					<Switch>
 						
 						<Route exact path="/login" component={Login}/>
+						<Route exact path="/register" component={Register} />
 						<Route exact path="/" component={Homepage} />
 						<Route exact path="/pr/:id" component={Product} />
 						<Route exact path="/sell" component={Sell} />
-						<Route exact path="/register" component={Register} />
+						<Route exact path="/borrow" component={Borrow} />
 						<Route exact path="/srch/:key" component={Search} />
+						<Route exact path="/category/:category" component={Category} />
+
 						<Route exact path="/img" component={ImageUpload} />
+						<Route exact path="/empt" component={EmptyBooks} />
+
+
+
+						<Route exact path="/admindash" component={Login} />
+						<Route exact path="/products" component={Login} />
+						<Route exact path="/users" component={Login} />
+						<Route exact path="/admins" component={Login} />
+						<Route exact path="/orders" component={Login} />
+
+						<Route exact path="/userdash/:userId" component={Login} />
+						<Route exact path="/addproducts" component={Login} />
+						<Route exact path="/editproducts" component={Login} />
+						<Route exact path="/userorders" component={Login} />
+						<Route exact path="/profile" component={Login} />
 
 					</Switch>:
 					<Switch>
 						<Route exact path="/srch" component={Search} />
 						<Route exact path="/" component={Homepage} />
-						<Route exact path="/login" component={Homepage} />
+						<Route exact path="/login" component={Userdashboard} />
 
 						<Route exact path="/admindash" component={Admindashboard} />
 						<Route exact path="/products" component={Productmanagement} />
@@ -82,7 +102,9 @@ export class Routes extends Component {
 
 						<Route exact path="/pr/:id" component={Product} />
 						<Route exact path="/srch/:key" component={Search} />
+						<Route exact path="/category/:category" component={Category} />
 						<Route exact path="/borrow" component={Borrow} />
+						<Route exact path="/sell" component={Sell} />
 						
 					</Switch>
 	}

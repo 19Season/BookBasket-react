@@ -50,6 +50,7 @@ class ImageUpload extends Component {
                     console.log('Success' + res.data);
                 })
                 .catch(err => {
+                    console.log(formData)
                     console.log(err);
                 })
         }

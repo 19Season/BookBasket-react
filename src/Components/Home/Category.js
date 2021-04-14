@@ -1,41 +1,45 @@
 import React, { Component } from "react";
 import "./header.css";
+import BookImage from "./book-img.jpg";
 import {Header2} from "./Header2.js";
 import LoggedHeader from "./LoggedHeader.js";
-import BookImage from "./book-img.jpg";
-import { searchBooks } from "../../apiCall/BookAPI";
+import { getBooksByCategory } from "../../apiCall/BookAPI";
 import { orderBook } from "../../apiCall/OrderAPI";
 import { Button, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-import SearchBook  from './SearchBook.js';
+import EmptyBooks  from './EmptyBooks.js';
 
-export class Search extends Component {
+export class Category extends Component {
   
 constructor(props){
   super(props)
   this.state = {
-    books: [],
-    key:this.props.match.params.key,
+    book: [],
+    category:this.props.match.params.category,
     user:localStorage.getItem('userinfo') || null,
   }
   }
   
   componentDidMount() {
-    this.getSearch();
+    this.getBook();
+    console.log(this.state.book);
   }
 
-  getSearch = () => {
+  getBook = () => {
     let self=this;
-    searchBooks(this.state.key).then(function (res) {
-        self.setState({ books: res.data });
-        console.log(self.state.books)
+    getBooksByCategory(this.state.category).then(function (res) {
+        self.setState({ book: res.data });
+        console.log(res.data)
       })
       .catch((err) => console.log(err));
   };
+  handleSearch=(event)=>{
+    window.location.href=`/srch/${this.state.search}`
+  }
 
   render() {
     return (
       <div>
-        <div className="header">
+         <div className="header">
         {(() => {
         if (this.state.isLogin) {
           return (
@@ -65,21 +69,20 @@ constructor(props){
 
         {/* Content */}
        
-          <h2 align="left">Result</h2>
-          <hr />
+          <h5 align="left" style={{paddingTop:'5px'}}>{this.state.category} Books</h5>
           <hr />
           {(() => {
-        if(this.state.books==[]||this.state.books=='') {
+        if(this.state.book==[]||this.state.book=='') {
           return (
             <div>
-            <SearchBook />
+            <EmptyBooks />
             </div>
           )
         }else {
           return (
           <div className="sell-content">
       	
-		{/*{this.state.books.map((item)=>
+			{this.state.book.map((item)=>
 				<div className="book-card">
 					<div className="book-img">
 							<img src={BookImage} />
@@ -90,21 +93,12 @@ constructor(props){
 						<button class="view"><a style={{ cursor:"pointer" }} onClick={(e)=>window.location.href=`/pr/${item.id}`}>View More</a></button>
 					</div>
 				</div>
-				)}*/}
-
-    <div className="book-card">
-          <div className="book-img">
-              <img src={BookImage} />
-          </div>
-          <div className="book-data">
-            <p>{this.state.books.title}</p>
-            <p>{this.state.books.price}</p>
-          </div>
-        </div>
+				)}
 			</div>
-			)
+      )
         }
       })()}
+			
 		
         {/* Footer */}
         <div class="footer">
@@ -147,4 +141,4 @@ constructor(props){
     );
   }
 }
-export default Search;
+export default Category;

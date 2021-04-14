@@ -3,6 +3,8 @@ import "./header.css";
 import BookImage from "./book-img.jpg";
 import { getBookById } from "../../apiCall/BookAPI";
 import { orderBook } from "../../apiCall/OrderAPI";
+import {Header2} from "./Header2.js";
+import LoggedHeader from "./LoggedHeader.js";
 import { Button, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 
 //const theTheme = createMuiTheme({ palette: { primary: grey } })
@@ -21,6 +23,9 @@ constructor(props){
 
   componentDidMount() {
     this.getBook(this.state.id);
+  }
+  handleSearch=(event)=>{
+    window.location.href=`/srch/${this.state.search}`
   }
 
   getBook = () => {
@@ -46,14 +51,30 @@ constructor(props){
     return (
       <div>
         <div className="header">
+        {(() => {
+        if (this.state.isLogin) {
+          return (
+            <div>
+             <LoggedHeader />
+            </div>
+          )
+        }else {
+          return (
+            <div> <Header2/></div>
+          )
+        }
+      })()}
+
           <div className="header1">
             <h1> <a style={{ cursor:"pointer" }} onClick={()=>window.location.href='/'}> book Basket</a></h1>
             <div></div>
             <div className="search">
-              <input type="text" name="search" className="keyword" placeholder="Search book by title, author, keyword" /> 
-              <input type="submit" value="Search" className="src-btn" />
+              <input type="text" onChange={(event)=>this.handleChange(event)}  required name="search" className="keyword" placeholder="Search book by title, author, keyword" /> 
+              <input type="submit" onClick={(event)=>this.handleSearch(event)}  value="Search" className="src-btn" />
             </div>
           </div>
+
+         
         </div>
         {/* END */}
 

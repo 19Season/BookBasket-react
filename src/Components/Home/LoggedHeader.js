@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './header.css'
 
 export class LoggedHeader extends Component {
   constructor(props){
@@ -12,8 +13,7 @@ export class LoggedHeader extends Component {
 			<div>
 				 <div className="header2">
             <div className="buttons">
-              <p>Be a part of our platform? </p>
-              <button class="btn-login" onClick={(e)=>window.location.href=`/userdash/${this.state.user.id}`}>Go to Dashboard</button>
+              <button class="sup" onClick={(e)=>window.location.href=`/userdash/${this.state.user.id}`}>View Dashboard</button>
      
             </div>
           </div>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { addBook } from '../../apiCall/BookAPI'
 import { Button } from '@material-ui/core'
+import axios from 'axios';
 
 export default class Addproduct extends Component {
+    
 
     constructor(props){
 		super(props);
@@ -11,32 +13,78 @@ export default class Addproduct extends Component {
             userId:'',
             "title":'',
             "author":'',
-            "category":'',
+            "category":'College Book',
             "price":'',
-            "type":'',
+            "type":'Borrow',
             "description":'',
-            "addedBy":''
+            "addedBy":'',
+            "img":'',
+            image_file: null,
+            image_preview: ''
         };
          }
 
-         componentDidMount() {
+    componentDidMount() {
             this.state.userId=this.state.user.id
+           console.log(this.state.category)
          }
-         handleLogout=(event)=>{
+     handleLogout=(event)=>{
         event.preventDefault();
         localStorage.clear()
         window.location.href='/'
-    }
+   }
     handleChange=(event)=>{
 		this.setState({[event.target.name]:event.target.value});
-        console.log(this.state.category)
 	}
+
+  custom_file_upload_url = 'http://localhost:8085/api/upload';
+  
+   handleImagePreview = (e) => {
+        let image_as_base64 = URL.createObjectURL(e.target.files[0])
+        let image_as_files = e.target.files[0];
+
+        this.setState({
+            image_preview: image_as_base64,
+            image_file: image_as_files,
+        })
+    }
+
+    // Image/File Submit Handler
+    handleSubmitFile = () => {
+
+        if (this.state.image_file !== null){
+
+            let formData = new FormData();
+            formData.append('myfile', this.state.image_file);
+            // the image field name should be similar to your api endpoint field name
+            // in my case here the field name is customFile
+            
+            axios.post(
+                this.custom_file_upload_url,
+                formData,
+                {
+                    headers: {
+                        "Authorization": "YOUR_API_AUTHORIZATION_KEY_SHOULD_GOES_HERE_IF_HAVE",
+                        "Content-type": "multipart/form-data",
+                    },
+                }
+            )
+                .then(res => {
+                    console.log('Success' + res.data);
+                    this.setState({img:res.data});
+                    console.log(this.state.img)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }
 
 	handleSubmit=(event)=>{
 		event.preventDefault();
 		var date=Date.now()
-		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.type,this.state.userId,3).then((res)=>{
-			console.log(res);
+		addBook(this.state.title,this.state.author,this.state.price,this.state.category,this.state.description,this.state.img,this.state.type,this.state.userId,3).then((res)=>{
+		    console.log(this.state.img)
             window.location.href=`/userdash/${this.state.userId}`
 		}).catch((err)=>{
 			if(err.response.status===404){
@@ -46,13 +94,21 @@ export default class Addproduct extends Component {
                 price:'',
                 type:'',
                 description:'',
-                addedBy:''});
+                addedBy:'',
+                img:''
+              });
 			}
 		}
 		)
 	}
 
     render() {
+        const myStyle = {
+            width:'100%',
+            fontFamily: "Arial",
+            height:"40px"
+    };
+
         return (
             <div>
                 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
@@ -145,46 +201,44 @@ export default class Addproduct extends Component {
                         <div class=""> 
                                                             <main>
 
-                                <section class="vh-lg-100 d-flex align-items-center">
-                                    <div class="container">
-                                        <div class="row justify-content-center form-bg-image" >
-                                            <div class="col-12 d-flex align-items-center justify-content-center">
-                                                <div class="signin-inner  bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
-                                                    <div class="text-center text-md-center">
-                                                        <h1 class="h3">Add Book</h1>
+                                                  <div class="text-center text-md-center">
+                                                       <div>
+                                                        <h1 class="h3" style={{color:'#12C4E0'}}>Add Book</h1>
                                                     </div>
                                                     <form  class="" onSubmit={(event)=>this.handleSubmit(event)}>
                                                         <div class="form-group ">
-                                                            <label for="email">Book Title</label>
+                                                            <label for="email" style={{color:'#12C4E0'}}>Book Title</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" placeholder="Book Title" name="title" autofocus required onChange={(e)=>this.handleChange(e)} />
                                                             </div>  
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Author</label>
+                                                                <label for="password" style={{color:'#12C4E0'}}>Book Author</label>
                                                                 <div class="input-group">
                                                                     <input type="text" placeholder="Book Author" class="form-control" name="author" required  onChange={(e)=>this.handleChange(e)}/>
                                                                 </div>  
                                                             </div>
                                                         </div>
 
-                                                        {/*<div class="form-group">
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Book Category</label>
-                                                                <div class="input-group">
-                                                                    <input type="text" placeholder="Book Price" class="form-control" name="category" required onChange={(e)=>this.handleChange(e)}/>
-                                                                </div>  
-                                                            </div>
-                                                        </div>
-*/}
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Category</label>
+                                                                <label for="password" style={{color:'#12C4E0'}}>Book Category</label>
                                                                 <div class="input-group">
-                                                                <select onChange={(e)=>this.handleChange(e)} name="category">
-                                                                   <option  value="Borrow" >Borrow </option>
-                                                                   <option  value="Sell"  >Sell </option>
+                                                                <select style={myStyle} onChange={(e)=>this.handleChange(e)} name="category" class="select-opt">
+                                                                  <option value="College Books">College Books</option>
+                                                                  <option value="School Books">School Books</option>
+                                                                  <option value="Action and Adventure">Action and Adventure</option>
+                                                                  <option value="Classics">Classics</option>
+                                                                  <option value="Comic">Comic</option>
+                                                                  <option value="Fantasy">Fantasy</option>
+                                                                  <option value="Historical Fiction">Historical Fiction</option>
+                                                                  <option value="Horror">Horror</option>
+                                                                  <option value="Romance">Romance</option>
+                                                                  <option value="Science Fiction (Sci-Fi)">Science Fiction (Sci-Fi)</option>
+                                                                  <option value="Short Stories">Short Stories</option>
+                                                                  <option value="Biographies and Autobiographies">Biographies and Autobiographies</option>
+                                                                  <option value="Poetry">Poetry</option>
                                                                 </select>
                                                                 </div>  
                                                             </div>
@@ -193,53 +247,52 @@ export default class Addproduct extends Component {
 
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Price</label>
+                                                                <label for="password" style={{color:'#12C4E0'}}>Book Price</label>
                                                                 <div class="input-group">
                                                                     <input type="text" placeholder="Book Price" class="form-control" name="price" required onChange={(e)=>this.handleChange(e)}/>
                                                                 </div>  
                                                             </div>
                                                         </div>
 
-                                                            {/* <div class="form-group">
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Book Type</label>
-                                                                <div class="input-group">
-                                                                    <select class="form-select" aria-label="Default select example">
-                                                                        <option selected>Select Book Type</option>
-                                                                    <option value="Sell" name="type" onChange={(e)=>this.handleChange(e)}>Sell</option>
-                                                                    <option value="Borrow" name="type" onChange={(e)=>this.handleChange(e)}>Borrow</option>
-                                                                    </select>
-                                                                </div>  
-                                                            </div>
-                                                        </div> */}
-
 
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Type</label>
+                                                                <label for="password" style={{color:'#12C4E0'}}>Book Type</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" placeholder="Book Price" class="form-control" name="type" required onChange={(e)=>this.handleChange(e)}/>
+                                                                    <select style={myStyle} onChange={(e)=>this.handleChange(e)} name="type" select-opt  >
+                                                                   <option  selected value="Borrow" >Borrow </option>
+                                                                   <option  value="Sell"  >Sell </option>
+                                                                </select>
                                                                 </div>  
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <div class="form-group mb-4">
-                                                                <label for="password">Book Description</label>
+                                                                <label for="password" style={{color:'#12C4E0'}}>Book Description</label>
                                                                 <div class="input-group">
                                                                     <input onChange={(e)=>this.handleChange(e)} type="textarea" placeholder="Book Description" class="form-control"  name="description" required />
                                                                 </div>  
                                                             </div>
                                                         </div>
 
+                                                         <div class="form-group">
+                                                            <div class="form-group mb-4">
+                                                                <label>Upload file</label>
+                                                                <div class="input-group">
+                                                                  <input style={{width:'300px'}}
+                                                                      type="file" name='img'
+                                                                      onChange={(e)=>this.handleImagePreview(e)}
+                                                                  />
+                                                                  <input style={{width:'100px'}} type="button" onClick={()=>this.handleSubmitFile()} value="upload"/>
+                                                                 </div>  
+                                                            </div>
+                                                        </div>
 
-                                                        <button type="submit" class="btn btn-block btn-primary">Add Book</button>
+
+                                                        <button type="submit" style={{backgroundColor:'#3A6B8D'}} class="btn btn-block btn-primary">Add Book</button>
                                                 </form>
                                             </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </section>
                                 </main>
                                    
                         </div>

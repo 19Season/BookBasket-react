@@ -48,10 +48,7 @@ export class Homepage extends Component {
  
 
   render() {
-    const myStyle={
-      
-    }
-  
+   
     return (
       <div>
         <div className="header">
@@ -134,7 +131,7 @@ export class Homepage extends Component {
             {this.state.books.map((item)=>
         <div className="book-card">
           <div className="book-img">
-              <img src={BookImage} />
+              <img src={item.image} />
           </div>
           <div className="book-data">
             <p><b>{item.title}</b></p>

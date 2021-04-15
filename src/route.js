@@ -84,6 +84,7 @@ export class Routes extends Component {
 
 					</Switch>:
 					<Switch>
+					<Route exact path="/img" component={ImageUpload} />
 						<Route exact path="/srch" component={Search} />
 						<Route exact path="/" component={Homepage} />
 						<Route exact path="/login" component={Userdashboard} />

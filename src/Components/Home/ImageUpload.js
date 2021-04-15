@@ -32,7 +32,7 @@ class ImageUpload extends Component {
         if (this.state.image_file !== null){
 
             let formData = new FormData();
-            formData.append('customFile', this.state.image_file);
+            formData.append('myfile', this.state.image_file);
             // the image field name should be similar to your api endpoint field name
             // in my case here the field name is customFile
             
@@ -47,7 +47,7 @@ class ImageUpload extends Component {
                 }
             )
                 .then(res => {
-                    console.log('Success' + res.data);
+                    console.log(res.data);
                 })
                 .catch(err => {
                     console.log(formData)

@@ -13,6 +13,7 @@ export class Search extends Component {
 constructor(props){
   super(props)
   this.state = {
+     search:'',
     books: [],
     key:this.props.match.params.key,
     user:localStorage.getItem('userinfo') || null,
@@ -21,6 +22,14 @@ constructor(props){
   
   componentDidMount() {
     this.getSearch();
+  }
+
+   handleChange=(event)=>{
+    this.setState({[event.target.name]:event.target.value});
+  }
+
+  handleSearch=(event)=>{
+    window.location.href=`/srch/${this.state.search}`
   }
 
   getSearch = () => {
@@ -91,16 +100,18 @@ constructor(props){
 					</div>
 				</div>
 				)}*/}
-
+    {this.state.books.map((item)=>
     <div className="book-card">
           <div className="book-img">
               <img src={BookImage} />
           </div>
-          <div className="book-data">
-            <p>{this.state.books.title}</p>
-            <p>{this.state.books.price}</p>
+         <div className="book-data">
+            <p>{item.title}</p>
+            <p>{item.price}</p>
+            <button class="view"><a style={{ cursor:"pointer" }} onClick={(e)=>window.location.href=`/pr/${item.id}`}>View More</a></button>
           </div>
         </div>
+        )}
 			</div>
 			)
         }

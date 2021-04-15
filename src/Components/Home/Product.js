@@ -14,20 +14,26 @@ export class Product extends Component {
 constructor(props){
   super(props)
   this.state = {
+    search:'',
     book: [],
     id:this.props.match.params.id,
-    user:localStorage.getItem('userinfo') || null,
+    isLogin:!!localStorage.getItem('userinfo') || false,
+    user:JSON.parse(localStorage.getItem('userinfo')) || null,
   }
   }
   
 
   componentDidMount() {
     this.getBook(this.state.id);
+    console.log(this.state.user)
   }
+   handleChange=(event)=>{
+    this.setState({[event.target.name]:event.target.value});
+  }
+
   handleSearch=(event)=>{
     window.location.href=`/srch/${this.state.search}`
   }
-
   getBook = () => {
     let self=this;
     getBookById(self.state.id).then(function (res) {
@@ -37,14 +43,16 @@ constructor(props){
   };
 
   orderBooks=(event)=>{
-    let id=this.state.user['6'];
-    console.log(this.state.book.id)
-    console.log(this.state.user['6'])
-    orderBook(this.state.book.id,this.state.user['6'],3)
+    
+    if(this.state.user ==null || this.state.user==[]|| this.state.user==''){
+      window.location.href='/login'
+    }else{
+    orderBook(this.state.book.id,this.state.user.id,3)
     .then(function (res) {
-        window.location.href=`/userdash/${id}`
+        window.location.href=`/userdash/${this.state.user.id}`
       })
       .catch((err) => console.log(err));
+  }
   }
 
   render() {
@@ -100,7 +108,7 @@ constructor(props){
           <div className="product-content">
 
             <div className="book-img">
-              <img src={BookImage} />
+              <img src={this.state.book.image} />
             </div>
            
             <div className="book-details">

@@ -7,11 +7,12 @@ export class EmptyBooks extends Component {
     value:'',
   }
   }
-  change=(event)=>{
-  	this.setState({[event.target.name]:event.target.selectedIndex.value});
+  handleChange=(event)=>{
+  	this.setState({value:event.target.value});
+   
   }
   print=(e)=>{
-  	console.log(this.state.selected)
+  	console.log(this.state.value)
   }
 	render() {
 	const mystyle = {
@@ -23,6 +24,18 @@ export class EmptyBooks extends Component {
 		return (
 			<div>
 				<h1 style={mystyle}>Books will be available soon.</h1>
+       <div class="form-group">
+              <div class="form-group mb-4">
+                <label for="password">Book Category</label>
+                  <div class="input-group">
+                  <select onChange={(e)=>this.handleChange(e)} name='value'>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                  </select>
+                 </div>  
+                </div>
+         </div>
+         <button onClick={(e)=>this.print(e)}>PRINT</button>
 			</div>
 		);
 	}

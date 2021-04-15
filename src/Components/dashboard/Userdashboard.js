@@ -41,9 +41,13 @@ export default class Userorder extends Component {
 
     render() {
       const {userId}=this.state;
+     const imgStyle={
+      width:'50px'
+     }
         return (
             <div>
                 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
+     }
       }
     <a class="navbar-brand mr-lg-5" href="../../index.html">
         <img class="navbar-brand-dark" src="../../assets/img/brand/light.svg" alt="Volt logo" /> <img class="navbar-brand-light" src="../../assets/img/brand/dark.svg" alt="Volt logo" />
@@ -116,12 +120,12 @@ export default class Userorder extends Component {
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Title</th>						
                                         <th>Author</th>
                                         <th>Price</th>
                                         <th>Type</th>
-                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Image</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -129,17 +133,13 @@ export default class Userorder extends Component {
                                 {this.state.books.map((item)=>
                                     <tr>
                                         <td>
-                                            <a href="../invoice.html" class="font-weight-bold">
-                                          {item.id}
-                                            </a>
-                                        </td>
-                                        <td>
                                             <span class="font-weight-normal">{item.title}</span>
                                         </td>
                                         <td><span class="font-weight-normal">{item.author} </span></td>                        
                                         <td><span class="font-weight-normal">{item.price}</span></td>
                                         <td><span class="font-weight-bold">{item.type}</span></td>
-                                        <td><span class="font-weight-bold text-warning">{item.description}</span></td>
+                                        <td><span class="font-weight-bold text-warning">{item.category}</span></td>
+                                        <td><img style={imgStyle} src={item.image} /></td>
                                         <td>
                                             <div class="btn-group">
                                                 <Button variant="contained" color="primary" onCLick={(e)=>window.location.href='/editproducts'}>Edit</Button>&nbsp;

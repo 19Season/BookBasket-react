@@ -75,7 +75,7 @@ export function getBooksByType(type){
 	})
 }
 
-export function addBook(title,author,price,category,description,type,addedBy) {
+export function addBook(title,author,price,category,description,img,type,addedBy) {
 	var data = {
 		"title":title,
 		"author":author,
@@ -83,6 +83,7 @@ export function addBook(title,author,price,category,description,type,addedBy) {
 		"category":category,
 		"type":type,
 		"description":description,
+		"image":img,
 		"addedBy":{"id":addedBy}
 	}
 	return new Promise(function (resolve, reject){
